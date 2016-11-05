@@ -7,7 +7,7 @@ $(function () {
     exit: false
   };
 
-  $(".terminal").terminal(function (command, terminal) {
-    terminal.error(command);
-  }, options);
+//  $(".terminal").terminal(function (command, terminal) {
+//    terminal.error(command);
+//  }, options);
 });

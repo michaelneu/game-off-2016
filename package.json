@@ -5,11 +5,10 @@
   "repository": "https://github.com/michaelneu/game-off-2016.git",
   "license": "MIT",
   "scripts": {
-    "serve": "node_modules/.bin/lite-server -c lite-server.json",
     "build:gulp": "node_modules/.bin/gulp",
     "build:ts": "node_modules/.bin/tsc",
     "build": "npm run build:gulp && npm run build:ts",
-    "dev": "node_modules/.bin/concurrently 'node_modules/.bin/gulp watch' 'node_modules/.bin/tsc --watch' 'npm run serve'",
+    "dev": "node_modules/.bin/concurrently 'node_modules/.bin/gulp watch' 'node_modules/.bin/tsc --watch'",
     "postinstall": "npm run build"
   },
   "devDependencies": {
@@ -17,7 +16,6 @@
     "concurrently": "^3.1.0",
     "gulp": "^3.9.1",
     "gulp-less": "^3.1.0",
-    "lite-server": "^2.2.2",
     "typescript": "^2.0.6"
   }
 }
