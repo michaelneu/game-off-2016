@@ -8,6 +8,7 @@
 /*.ez
 /node_modules
 /priv/static
+!/priv/static/favicon.ico
 
 # Intellij
 .idea
