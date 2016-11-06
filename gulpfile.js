@@ -1,5 +1,6 @@
-var gulp = require('gulp');
-var less = require('gulp-less');
+var gulp = require('gulp'),
+    less = require('gulp-less'),
+    babel = require("gulp-babel");
 
 var SRC = {
   LESS: {
@@ -8,6 +9,7 @@ var SRC = {
   },
   HTML: 'web/static/frontend/src/**/*.html',
   IMAGES: 'web/static/frontend/src/images/**/*.*',
+  PHOENIX: 'node_modules/phoenix/web/static/js/phoenix.js'
 };
 
 var DEST = {
@@ -29,7 +31,15 @@ gulp.task('images', function () {
   return gulp.src(SRC.IMAGES).pipe(gulp.dest(DEST.IMAGES));
 });
 
-gulp.task('default', ['less', 'html', 'images']);
+gulp.task('phoenix', function () {
+  return gulp.src(SRC.PHOENIX)
+              .pipe(babel({
+                presets: ['es2015']
+              }))
+              .pipe(gulp.dest(DEST.BASE));
+});
+
+gulp.task('default', ['less', 'html', 'images', 'phoenix']);
 
 gulp.task('watch', function () {
   gulp.watch(SRC.LESS.WATCH, ['less']);

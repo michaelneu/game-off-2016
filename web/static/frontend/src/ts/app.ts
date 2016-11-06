@@ -1,13 +1,14 @@
 import API from "./api";
+import { Socket } from "phoenix";
 
 $(function () {
-  var options = {
+  const options: JQueryTerminalOptions = {
     greetings: "",
     prompt: "user@team [[;green;]repository/dir] $ ",
     exit: false
   };
 
-//  $(".terminal").terminal(function (command, terminal) {
-//    terminal.error(command);
-//  }, options);
+ $(".terminal").terminal(function (command, terminal) {
+   terminal.error(command);
+ }, options);
 });
