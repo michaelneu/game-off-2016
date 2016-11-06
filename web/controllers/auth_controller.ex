@@ -63,7 +63,7 @@ defmodule Gameoff.AuthController do
   defp find_or_create(auth) do
      case Repo.get_by(User, github_uid: auth.uid) do
        nil ->
-        name = auth.info.name || auth.info.nickname
+        name = auth.info.nickname
         new_user_changeset = User.changeset(%User{}, %{name: name, github_uid: auth.uid})
 
         case Repo.insert(new_user_changeset) do
