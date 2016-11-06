@@ -17,10 +17,13 @@ defmodule Gameoff.AuthController do
 
     conn
     |> put_flash(:info, "You have been logged out!")
-    |> configure_session(drop: true)
+    |> Guardian.Plug.sign_out
     |> redirect(to: "/")
   end
 
+  @doc"""
+  Called after the oauth failed.
+  """
   def callback(%{assigns: %{ueberauth_failure: _fails}} = conn, _params) do
     Logger.debug "Failed auth callback"
 
@@ -29,6 +32,10 @@ defmodule Gameoff.AuthController do
     |> redirect(to: "/")
   end
 
+  @doc"""
+  Called after a successfull auth with oauth.
+  Logs the user in and creates an account if non exists.
+  """
   def callback(%{assigns: %{ueberauth_auth: auth}} = conn, _params) do
     Logger.debug "Successfull auth callback"
 
@@ -36,7 +43,7 @@ defmodule Gameoff.AuthController do
       {:ok, user} ->
         conn
         |> put_flash(:info, "Successfully authenticated.")
-        |> put_session(:current_user, user)
+        |> Guardian.Plug.sign_in(user)
         |> redirect(to: "/")
       {:error, reason} ->
         conn

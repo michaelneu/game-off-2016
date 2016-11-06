@@ -39,7 +39,8 @@ defmodule Gameoff.Mixfile do
      {:gettext, "~> 0.11"},
      {:cowboy, "~> 1.0"},
      {:ueberauth, "~> 0.3"},
-     {:ueberauth_github, "~> 0.4"}]
+     {:ueberauth_github, "~> 0.4"},
+     {:guardian, "~> 0.13.0"}]
   end
 
   # Aliases are shortcuts or tasks specific to the current project.

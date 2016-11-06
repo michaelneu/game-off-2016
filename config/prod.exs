@@ -64,3 +64,9 @@ config :logger, level: :info
 #
 #     config :gameoff, Gameoff.Endpoint, server: true
 #
+
+config :guardian, Guardian,
+  secret_key: %{
+      "k" => System.get_env("GUARDIAN_SECRET_KEY"),
+      "kty" => "oct"
+    }
