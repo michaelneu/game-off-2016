@@ -16,8 +16,15 @@ defmodule Gameoff.Router do
   scope "/", Gameoff do
     pipe_through :browser # Use the default browser stack
 
+    # Serve main game pages
     get "/", PageController, :landing
     get "/game", PageController, :game
+
+    # Login/Auth routes
+    get "/auth/logout", AuthController, :logout
+    get "/auth/:provider", AuthController, :request
+    get "/auth/:provider/callback", AuthController, :callback
+    post "/auth/:provider/callback", AuthController, :callback
   end
 
   # Other scopes may use custom stacks.

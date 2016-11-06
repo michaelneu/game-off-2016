@@ -7,7 +7,7 @@ defmodule Gameoff.PageController do
 
   def game(conn, _params) do
     conn
-      |> put_resp_content_type("text/html")
-      |> resp(200, File.read!("priv/static/index.html"))
+    |> put_resp_content_type("text/html")
+    |> resp(200, File.read!("priv/static/index.html"))
   end
 end

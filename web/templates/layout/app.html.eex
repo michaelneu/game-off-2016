@@ -11,6 +11,19 @@
   </head>
 
   <body>
+    <%
+      info = get_flash(@conn, :info)
+      error = get_flash(@conn, :error)
+    %>
+    <%= if info do %>
+      <h2>Info:</h2>
+      <p><%= info %></p>
+    <% end %>
+    <%= if error do %>
+      <h2>Error:</h2>
+      <p><%= error %></p>
+    <% end %>
+
     <%= render @view_module, @view_template, assigns %>
   </body>
 </html>
