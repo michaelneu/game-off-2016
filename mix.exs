@@ -40,7 +40,8 @@ defmodule Gameoff.Mixfile do
      {:cowboy, "~> 1.0"},
      {:ueberauth, "~> 0.3"},
      {:ueberauth_github, "~> 0.4"},
-     {:guardian, "~> 0.13.0"}]
+     {:guardian, "~> 0.13.0"},
+     {:ex_machina, "~> 1.0", only: :test}]
   end
 
   # Aliases are shortcuts or tasks specific to the current project.

@@ -19,6 +19,7 @@ defmodule Gameoff.Router do
     plug :accepts, ["json"]
     plug Guardian.Plug.VerifyHeader
     plug Guardian.Plug.LoadResource
+    plug :put_user
   end
 
   scope "/", Gameoff do

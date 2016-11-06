@@ -8,10 +8,8 @@ defmodule Gameoff.PageController do
   end
 
   def game(conn, _params) do
-    { :ok, jwt, _full_claims } = Guardian.encode_and_sign(conn.assigns[:user])
-
     conn
     |> put_layout(false)
-    |> render("game.html", jwt_token: jwt)
+    |> render("game.html", jwt_token: Guardian.Plug.current_token(conn))
   end
 end
