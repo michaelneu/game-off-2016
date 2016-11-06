@@ -1,6 +1,8 @@
 import API from "./api";
 import { Socket } from "phoenix";
 
+declare var GAMEOFF_JWT_TOKEN: string;
+
 $(function () {
   const options: JQueryTerminalOptions = {
     greetings: "",

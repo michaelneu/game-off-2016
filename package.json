@@ -4,11 +4,14 @@
   "description": "the frontend to our game-off 2016 game",
   "repository": "https://github.com/michaelneu/game-off-2016.git",
   "license": "MIT",
+  "bin": {
+    "gulp": "node_modules/.bin/gulp",
+    "tsc": "node_modules/.bin/tsc",
+    "concurrently": "node_modules/.bin/concurrently"
+  },
   "scripts": {
-    "build:gulp": "node_modules/.bin/gulp",
-    "build:ts": "node_modules/.bin/tsc",
-    "build": "npm run build:gulp && npm run build:ts",
-    "dev": "node_modules/.bin/concurrently 'node_modules/.bin/gulp watch' 'node_modules/.bin/tsc --watch'",
+    "build": "gulp && tsc",
+    "dev": "concurrently 'gulp watch' 'tsc --watch'",
     "postinstall": "npm run build"
   },
   "devDependencies": {
