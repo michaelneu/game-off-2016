@@ -12,6 +12,7 @@ defmodule Gameoff.Router do
   pipeline :browser_session do
     plug Guardian.Plug.VerifySession
     plug Guardian.Plug.LoadResource
+    plug :put_user
   end
 
   pipeline :api do
@@ -32,6 +33,11 @@ defmodule Gameoff.Router do
     get "/auth/:provider", AuthController, :request
     get "/auth/:provider/callback", AuthController, :callback
     post "/auth/:provider/callback", AuthController, :callback
+  end
+
+  defp put_user(conn, _options) do
+    user = Guardian.Plug.current_resource(conn)
+    assign(conn, :user, user)
   end
 
   # Other scopes may use custom stacks.

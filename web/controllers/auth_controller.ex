@@ -18,7 +18,7 @@ defmodule Gameoff.AuthController do
     conn
     |> put_flash(:info, "You have been logged out!")
     |> Guardian.Plug.sign_out
-    |> redirect(to: "/")
+    |> redirect(to: page_path(conn, :landing))
   end
 
   @doc"""
@@ -29,7 +29,7 @@ defmodule Gameoff.AuthController do
 
     conn
     |> put_flash(:error, "Failed to authenticate.")
-    |> redirect(to: "/")
+    |> redirect(to: page_path(conn, :landing))
   end
 
   @doc"""
@@ -44,11 +44,11 @@ defmodule Gameoff.AuthController do
         conn
         |> put_flash(:info, "Successfully authenticated.")
         |> Guardian.Plug.sign_in(user)
-        |> redirect(to: "/")
+        |> redirect(to: page_path(conn, :game))
       {:error, reason} ->
         conn
         |> put_flash(:error, reason)
-        |> redirect(to: "/")
+        |> redirect(to: page_path(conn, :landing))
     end
   end
 
