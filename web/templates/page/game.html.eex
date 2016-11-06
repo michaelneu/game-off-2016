@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery.terminal/0.11.12/css/jquery.terminal.min.css" integrity="sha256-7GFGYbmsjAfU/kvFbl7GxANgV+LPbCfNqP8eu9FoO6Q=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="style.css">
+
+    <title></title>
+  </head>
+  <body>
+    <canvas></canvas>
+
+    <div class="terminal">
+    </div>
+
+    <script>
+      window.GAMEOFF_JWT_TOKEN = "<%= @jwt_token %>";
+    </script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/systemjs/0.19.40/system.js" integrity="sha256-jgem6eKIlB5g6wnGTGvgBYGNM5TgYz3JwIIEGLO/aCk=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.terminal/0.11.12/js/jquery.terminal.min.js" integrity="sha256-1hDh0DFdMBk2CvD+1LvEKnScyPMCzT++MuI21givBos=" crossorigin="anonymous"></script>
+
+    <script>
+      System.config({
+        map: {
+          "phoenix": "phoenix.js",
+          "app": "app.js"
+        }
+      });
+
+      System.import("app");
+    </script>
+  </body>
+</html>

@@ -21,7 +21,7 @@ defmodule Gameoff.Router do
   end
 
   scope "/", Gameoff do
-    pipe_through :browser # Use the default browser stack
+    pipe_through [:browser, :browser_session] # Use the default browser stack
 
     # Serve main game pages
     get "/", PageController, :landing
