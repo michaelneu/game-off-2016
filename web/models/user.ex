@@ -5,6 +5,9 @@ defmodule Gameoff.User do
     field :name, :string
     field :github_uid, :string
 
+    has_many :user_devices, Gameoff.UserDevice
+    has_many :devices, through: [:user_devices, :device]
+
     timestamps()
   end
 
