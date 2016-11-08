@@ -1,13 +1,15 @@
 import { User } from "./api";
+import Terminal from "./terminal";
+import Canvas from "./canvas";
 
 $(function () {
-  const options: JQueryTerminalOptions = {
+  const terminal = new Terminal({
     greetings: "",
     prompt: "user@team [[;green;]repository/dir] $ ",
     exit: false
-  };
+  });
 
-  $(".terminal").terminal(function (command, terminal) {
+  terminal.interpreter = (command: string, terminal: JQueryTerminal) => {
     switch (command) {
       case "whoami":
         User.getInformation().then((information) => {
@@ -15,5 +17,7 @@ $(function () {
         });
         break;
     }
-  }, options);
+  };
+
+  const canvas = new Canvas();
 });
