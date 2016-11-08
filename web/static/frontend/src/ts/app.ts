@@ -1,7 +1,4 @@
-import API from "./api";
-import { Socket } from "phoenix";
-
-declare var GAMEOFF_JWT_TOKEN: string;
+import { User } from "./api";
 
 $(function () {
   const options: JQueryTerminalOptions = {
@@ -10,7 +7,13 @@ $(function () {
     exit: false
   };
 
- $(".terminal").terminal(function (command, terminal) {
-   terminal.error(command);
- }, options);
+  $(".terminal").terminal(function (command, terminal) {
+    switch (command) {
+      case "whoami":
+        User.getInformation().then((information) => {
+          terminal.echo(information.name);
+        });
+        break;
+    }
+  }, options);
 });
