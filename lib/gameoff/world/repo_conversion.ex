@@ -14,10 +14,11 @@ defmodule Gameoff.World.RepoConversion do
     star_count = repo_details["stargazers_count"]
     forks_count = repo_details["forks_count"]
     rank = star_count * @star_cont_weight + forks_count * @fork_count_weight
+    github_id = repo_details["id"]
 
     structure = get_repo_structure(data_source, client, owner_name, repo_name, "")
 
-    %Repository{level: rank, name: "#{owner_name}/#{repo_name}", repo_structure: structure}
+    %Repository{level: rank, name: "#{owner_name}/#{repo_name}", repo_structure: structure, github_id: github_id}
   end
 
   # Returns the structure (file tree) of an github repository by queriieng the github api.

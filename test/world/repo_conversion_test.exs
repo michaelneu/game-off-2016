@@ -44,6 +44,8 @@ defmodule Gameoff.RepoConversionTest do
     children = root.children
     gitignore = children[{:file, ".gitignore"}]
 
+    assert 72574554 = repo.github_id
+
     assert ".gitignore" = gitignore.name
     assert 492 = gitignore.size
     assert :file = gitignore.type
