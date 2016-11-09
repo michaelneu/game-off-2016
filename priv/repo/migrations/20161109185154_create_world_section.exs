@@ -9,6 +9,5 @@ defmodule Gameoff.Repo.Migrations.CreateWorldSection do
 
       timestamps()
     end
-
   end
 end

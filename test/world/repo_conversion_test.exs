@@ -42,7 +42,7 @@ defmodule Gameoff.RepoConversionTest do
 
     root = repo.repo_structure
     children = root.children
-    gitignore = children[{:file, ".gitignore"}]
+    gitignore = children[".gitignore"]
 
     assert 72574554 = repo.github_id
 
@@ -50,18 +50,18 @@ defmodule Gameoff.RepoConversionTest do
     assert 492 = gitignore.size
     assert :file = gitignore.type
 
-    config = children[{:dir, "config"}]
+    config = children["config"]
     assert "config" = config.name
     assert :dir = config.type
 
-    simple_nested = config.children[{:file, "dev.exs"}]
+    simple_nested = config.children["dev.exs"]
     assert "dev.exs" = simple_nested.name
     assert 1388 = simple_nested.size
 
-    sub_dir = config.children[{:dir, "sub"}]
+    sub_dir = config.children["sub"]
     assert "sub" = sub_dir.name
 
-    complex_nested = sub_dir.children[{:file, "file.ex"}]
+    complex_nested = sub_dir.children["file.ex"]
     assert "file.ex" = complex_nested.name
   end
 end

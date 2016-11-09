@@ -31,7 +31,7 @@ defmodule Gameoff.World.RepoConversion do
                     element != nil
                   end)
                 |> Enum.map(fn(element) ->
-                    {{element.type, element.name}, element}
+                    {element.name, element}
                   end)
                 |> Map.new
 
@@ -68,15 +68,15 @@ defmodule Gameoff.World.RepoConversion do
   defp insert_element_to_tree(%{"type" => "blob", "path" => [name], "size" => size}, dir) do
     # We found a file, insert it directly
     child_file = %{type: :file, name: name, size: size, children: %{}}
-    Map.update(dir, :children, %{}, fn(children) -> Map.put(children, {:file, name}, child_file) end)
+    Map.update(dir, :children, %{}, fn(children) -> Map.put(children, name, child_file) end)
   end
   defp insert_element_to_tree(%{"type" => "blob", "path" => [dir_name | rest]} = new_element, dir) do
     # Find the correct child dir
-    child_dir = Map.get(dir.children, {:dir, dir_name}) || %{type: :dir, name: dir_name, children: %{}}
+    child_dir = Map.get(dir.children, dir_name) || %{type: :dir, name: dir_name, children: %{}}
 
     # Update it by inserting the file inte the child dir
     new_child = insert_element_to_tree(Map.put(new_element, "path", rest), child_dir)
-    Map.update(dir, :children, %{}, fn(children) -> Map.put(children, {:dir, dir_name}, new_child) end)
+    Map.update(dir, :children, %{}, fn(children) -> Map.put(children, dir_name, new_child) end)
   end
   defp insert_element_to_tree(_, dir) do
     # Ignore directory nodes, they will be implicitly created by inserting files (as there ar no empty folders)
