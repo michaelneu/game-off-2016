@@ -2,7 +2,7 @@ defmodule Gameoff.Repository do
   use Gameoff.Web, :model
 
   @valid_params ~w(level name location_x location_y repo_structure)a
-  @required_params ~w(level name location_x location_y repo_structure)a
+  @required_params ~w(level name repo_structure)a
 
   schema "repositories" do
     field :level, :integer

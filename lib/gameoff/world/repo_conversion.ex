@@ -1,6 +1,9 @@
 defmodule Gameoff.World.RepoConversion do
   alias Gameoff.Repository
 
+  @fork_count_weight 2
+  @star_cont_weight 1
+
   @doc"""
   Pulls all required repository information from github.
   Returns a map Gameoff.Repository with the data parsed into it.
@@ -10,11 +13,11 @@ defmodule Gameoff.World.RepoConversion do
 
     star_count = repo_details["stargazers_count"]
     forks_count = repo_details["forks_count"]
-    avatar_url = String.split(repo_details["owner"]["avatar_url"], "?") |> Enum.at(0)
+    rank = star_count * @star_cont_weight + forks_count * @fork_count_weight
 
     structure = get_repo_structure(data_source, client, owner_name, repo_name, "")
 
-    %Repository{level: star_count, name: "#{owner_name}/#{repo_name}", repo_structure: structure}
+    %Repository{level: rank, name: "#{owner_name}/#{repo_name}", repo_structure: structure}
   end
 
   # Returns the structure (file tree) of an github repository by queriieng the github api.
