@@ -11,7 +11,7 @@ config :gameoff, Gameoff.Endpoint,
   debug_errors: true,
   code_reloader: true,
   check_origin: false,
-  watchers: [npm: ["run", "build"], npm: ["run", "dev"]]
+  watchers: [npm: ["run", "build:images"], npm: ["run", "dev"]]
 
 
 # Watch static and templates for browser reloading.
