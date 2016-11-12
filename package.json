@@ -4,14 +4,11 @@
   "description": "the frontend to our game-off 2016 game",
   "repository": "https://github.com/michaelneu/game-off-2016.git",
   "license": "MIT",
-  "bin": {
-    "gulp": "node_modules/.bin/gulp",
-    "tsc": "node_modules/.bin/tsc",
-    "concurrently": "node_modules/.bin/concurrently"
-  },
   "scripts": {
-    "build": "gulp && tsc",
-    "dev": "concurrently 'gulp watch' 'tsc --watch'",
+    "build:images": "cp web/static/images priv/static -r",
+    "build:less": "autoless --no-watch web/static/less priv/static",
+    "build": "npm run build:images && npm run build:less && webpack",
+    "dev": "concurrently 'webpack --watch' 'autoless web/static/less priv/static'",
     "postinstall": "npm run build"
   },
   "devDependencies": {
@@ -19,14 +16,14 @@
     "@types/es6-promise": "0.0.32",
     "@types/jquery": "^2.0.33",
     "@types/phoenix": "0.0.4",
-    "babel-preset-es2015": "^6.18.0",
+    "autoless": "^0.1.7",
     "concurrently": "^3.1.0",
-    "gulp": "^3.9.1",
-    "gulp-babel": "^6.1.2",
-    "gulp-less": "^3.1.0",
-    "typescript": "^2.0.6"
+    "ts-loader": "^1.2.0",
+    "typescript": "^2.0.6",
+    "webpack": "^1.13.3"
   },
   "dependencies": {
-    "phoenix": "^1.2.1"
+    "phoenix": "^1.2.1",
+    "voronoi-diagram": "^1.0.1"
   }
 }

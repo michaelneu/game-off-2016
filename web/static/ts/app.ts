@@ -1,6 +1,7 @@
 import { User } from "./api";
 import Terminal from "./terminal";
 import Canvas from "./canvas";
+import PaperElement from "./paper";
 
 $(function () {
   const terminal = new Terminal({

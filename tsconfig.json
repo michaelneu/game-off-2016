@@ -1,13 +1,12 @@
 {
   "compilerOptions": {
     "target": "es5",
-    "module": "system",
-    "outFile": "priv/static/app.js",
-    "removeComments": true
+    "module": "commonjs",
+    "outDir": "priv/static/js"
   },
   "include": [
-    "web/static/frontend/src/ts/**/*.ts",
-    "web/static/frontend/typings/**/*.d.ts"
+    "web/static/ts/**/*.ts",
+    "web/static/typings/**/*.d.ts"
   ],
   "exclude": [
     "node_modules"

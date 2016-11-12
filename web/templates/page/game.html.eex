@@ -18,21 +18,11 @@
       window.GAMEOFF_JWT_TOKEN = "<%= @jwt_token %>";
     </script>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/systemjs/0.19.40/system.js" integrity="sha256-jgem6eKIlB5g6wnGTGvgBYGNM5TgYz3JwIIEGLO/aCk=" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.terminal/0.11.12/js/jquery.terminal.min.js" integrity="sha256-1hDh0DFdMBk2CvD+1LvEKnScyPMCzT++MuI21givBos=" crossorigin="anonymous"></script>
     <script src="https://code.createjs.com/easeljs-0.8.2.min.js"></script>
     <script src="https://code.createjs.com/tweenjs-0.6.2.min.js"></script>
 
-    <script>
-      System.config({
-        map: {
-          "phoenix": "phoenix.js",
-          "app": "app.js"
-        }
-      });
-
-      System.import("app");
-    </script>
+    <script src="app.js"></script>
   </body>
 </html>

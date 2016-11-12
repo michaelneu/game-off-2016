@@ -1,0 +1,3 @@
+declare module "voronoi-diagram" {
+  
+}
