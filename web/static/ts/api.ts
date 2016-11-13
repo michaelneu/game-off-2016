@@ -10,3 +10,10 @@ export module User {
     return Server.send<string, Information>("user");
   }
 }
+
+export module Map {
+  export interface Point {
+    x: number;
+    y: number;
+  }
+}

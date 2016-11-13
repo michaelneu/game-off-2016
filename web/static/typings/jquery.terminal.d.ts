@@ -1,3 +1,8 @@
+// Type definitions for jquery.terminal 0.11.12
+// Project: https://github.com/jcubic/jquery.terminal
+// Definitions by: Michael Neu <https://github.com/michaelneu>
+// Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped
+
 interface JQueryTerminalEchoOptions {
 	/**
 	 * it will allow to display raw html

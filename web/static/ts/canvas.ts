@@ -1,17 +1,21 @@
 import PaperElement from "./paper";
-import * as voronoi from "voronoi-diagram";
+import MapElement from "./map";
 
 export default class Canvas {
   private canvas: JQuery;
   private stage: createjs.Stage;
+  private map: MapElement;
 
   private elements: PaperElement[];
 
   constructor() {
     this.elements = [];
-
+    this.map = new MapElement();
     this.canvas = $("canvas");
+
     this.stage = new createjs.Stage(this.canvas.get(0));
+    this.stage.enableMouseOver();
+    this.stage.addChild(this.map);
 
     $(window).resize(() => this.onWindowResize());
     this.onWindowResize();
@@ -57,6 +61,10 @@ export default class Canvas {
     setTimeout(() => {
       this.stage.removeChild.apply(this.stage, this.elements);
       this.elements = [];
-    }, 1000);
+    }, 500);
+  }
+
+  public showMap() : void {
+    this.clear();
   }
 }

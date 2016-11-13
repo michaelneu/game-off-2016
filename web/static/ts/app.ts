@@ -21,4 +21,5 @@ $(function () {
   };
 
   const canvas = new Canvas();
+  canvas.showMap();
 });
