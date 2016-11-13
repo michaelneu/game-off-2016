@@ -3,7 +3,8 @@ defmodule Gameoff.World.DiamondSquare do
     start_map = %{{0, 0} => bottom_left, {0, size - 1} => top_left,
                   {size - 1, size - 1} => top_right, {size - 1, 0} => bottom_right}
 
-     diamond_square(start_map, 0, 0, size, rand_function)
+    IO.inspect(size)
+    diamond_square(start_map, 0, 0, size, rand_function)
   end
 
   defp diamond_square(map, _x, _y, size, _rand_funcion) when size < 3 do
