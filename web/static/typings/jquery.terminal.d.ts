@@ -731,5 +731,5 @@ interface JQueryTerminal {
 }
 
 interface JQuery {
-	terminal(interpreterFunction: (command: string, terminal: JQueryTerminal) => void, options?: JQueryTerminalOptions) : JQuery;
+	terminal(interpreterFunction: (command: string, terminal: JQueryTerminal) => void, options?: JQueryTerminalOptions) : JQueryTerminal;
 }

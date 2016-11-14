@@ -23,7 +23,7 @@ defmodule Gameoff.ChannelCase do
       alias Gameoff.Repo
       import Ecto
       import Ecto.Changeset
-      import Ecto.Query
+      import Ecto.Query, only: [from: 1, from: 2]
 
 
       # The default endpoint for testing

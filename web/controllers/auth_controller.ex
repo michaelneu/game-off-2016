@@ -52,18 +52,17 @@ defmodule Gameoff.AuthController do
     end
   end
 
-  @doc """
-  Finds or creates a new user using the given github details.
 
-  Returns `{:ok, user}` if successfull.
-  Returns `{:error, reason}` if there was an error.
-
-  Can be used with ueberauth.
-  """
+  # Finds or creates a new user using the given github details.
+  #
+  # Returns `{:ok, user}` if successfull.
+  # Returns `{:error, reason}` if there was an error.
+  #
+  # Can be used with ueberauth.
   defp find_or_create(auth) do
      case Repo.get_by(User, github_uid: auth.uid) do
        nil ->
-        name = auth.info.name || auth.info.nickname
+        name = auth.info.nickname
         new_user_changeset = User.changeset(%User{}, %{name: name, github_uid: auth.uid})
 
         case Repo.insert(new_user_changeset) do

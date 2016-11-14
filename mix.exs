@@ -19,7 +19,7 @@ defmodule Gameoff.Mixfile do
   def application do
     [mod: {Gameoff, []},
      applications: [:phoenix, :phoenix_pubsub, :phoenix_html, :cowboy, :logger, :gettext,
-                    :phoenix_ecto, :postgrex, :ueberauth, :ueberauth_github]]
+                    :phoenix_ecto, :postgrex, :ueberauth, :ueberauth_github, :tentacat]]
   end
 
   # Specifies which paths to compile per environment.
@@ -40,7 +40,9 @@ defmodule Gameoff.Mixfile do
      {:cowboy, "~> 1.0"},
      {:ueberauth, "~> 0.3"},
      {:ueberauth_github, "~> 0.4"},
-     {:guardian, "~> 0.13.0"}]
+     {:guardian, "~> 0.13.0"},
+     {:ex_machina, "~> 1.0", only: :test},
+     {:tentacat, "~> 0.5"}]
   end
 
   # Aliases are shortcuts or tasks specific to the current project.

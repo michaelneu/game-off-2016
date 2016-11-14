@@ -1,0 +1,30 @@
+{
+  "sha": "a6b00925130b7b734fb254604cdc555572616e93",
+  "url": "https://api.github.com/repos/michaelneu/game-off-2016/git/trees/a6b00925130b7b734fb254604cdc555572616e93",
+  "tree": [
+    {
+      "path": "sub",
+      "mode": "100644",
+      "type": "tree",
+      "sha": "698f20119964c43c6f9b49134cf9d117e1d8616b",
+      "url": "https://api.github.com/repos/michaelneu/game-off-2016/git/blobs/698f20119964c43c6f9b49134cf9d117e1d8616b"
+    },
+    {
+      "path": "sub/file.ex",
+      "mode": "100644",
+      "type": "blob",
+      "size": 31,
+      "sha": "698f20119964c43c6f9b49134cf9d117e1d8615b",
+      "url": "https://api.github.com/repos/michaelneu/game-off-2016/git/blobs/698f20119964c43c6f9b49134cf9d117e1d8615b"
+    },
+    {
+      "path": "dev.exs",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "cfdc7f616082a4df8aac7d884c27eb7f6e3fea29",
+      "size": 1388,
+      "url": "https://api.github.com/repos/michaelneu/game-off-2016/git/blobs/cfdc7f616082a4df8aac7d884c27eb7f6e3fea29"
+    }
+  ],
+  "truncated": false
+}

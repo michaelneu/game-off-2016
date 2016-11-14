@@ -1,27 +1,17 @@
 defmodule Gameoff.UserSocket do
   use Phoenix.Socket
+  use Guardian.Phoenix.Socket
 
   ## Channels
-  channel "repo:*", Gameoff.RoomChannel
+  channel "repo:*", Gameoff.RepoChannel
 
   ## Transports
   transport :websocket, Phoenix.Transports.WebSocket,
       timeout: 45_000
   # transport :longpoll, Phoenix.Transports.LongPoll
 
-  # Socket params are passed from the client and can
-  # be used to verify and authenticate a user. After
-  # verification, you can put default assigns into
-  # the socket that will be set for all channels, ie
-  #
-  #     {:ok, assign(socket, :user_id, verified_user_id)}
-  #
-  # To deny connection, return `:error`.
-  #
-  # See `Phoenix.Token` documentation for examples in
-  # performing token verification on connect.
   def connect(_params, socket) do
-    {:ok, socket}
+    :error
   end
 
   # Socket id's are topics that allow you to identify all sockets for a given user:

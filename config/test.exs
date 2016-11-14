@@ -17,3 +17,10 @@ config :gameoff, Gameoff.Repo,
   database: "gameoff_test",
   hostname: "localhost",
   pool: Ecto.Adapters.SQL.Sandbox
+
+
+config :guardian, Guardian,
+  secret_key: %{
+      "k" => "wPRv1qH/dbxc3L1Tkud4wUoTM/fVB9d9rTrvNRHX7r8TtZNE0+XX6B/pDHEuZ9A5",
+      "kty" => "oct"
+    }
