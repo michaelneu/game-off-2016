@@ -17,6 +17,7 @@ defmodule Gameoff.RepoChannel do
     {:reply, {:ok, user_reply}, socket}
   end
 
+  intercept ["user"]
   def handle_out("user", payload, socket) do
     push socket, "user", payload
     {:noreply, socket}
