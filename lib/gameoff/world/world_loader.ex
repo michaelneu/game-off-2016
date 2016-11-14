@@ -17,9 +17,13 @@ defmodule Gameoff.World.WorldLoader do
   # The number of free repos that will be inserted (not necessory positioned in the world)
   @repo_insert_count 250
   # The size of one world section/tile
-  @world_section_size 65 # 2^6 + 1
+  @world_section_size 129 # 2^7 + 1
   # The number of trieals to insert new
   @world_section_insert_tries 150
+
+  @max_change_diamond_square 1.0
+
+  @minimum_population_distribution 0.25
 
   def start_link do
     GenServer.start_link(__MODULE__, %{})
@@ -78,15 +82,17 @@ defmodule Gameoff.World.WorldLoader do
     new_corners = find_corners(new_pos)
 
     strength_distribution =
-      DiamondSquare.generate_map(@world_section_size, new_corners.strength_corners.bottom_left,
+      DiamondSquare.generate_map(@world_section_size, @max_change_diamond_square,
+                                                      new_corners.strength_corners.bottom_left,
                                                       new_corners.strength_corners.top_left,
                                                       new_corners.strength_corners.top_right,
-                                                      new_corners.strength_corners.bottom_right, &rand_function/1)
+                                                      new_corners.strength_corners.bottom_right, &rand_function/2)
     population_distribution =
-      DiamondSquare.generate_map(@world_section_size, new_corners.population_corners.bottom_left,
+      DiamondSquare.generate_map(@world_section_size, @max_change_diamond_square,
+                                                      new_corners.population_corners.bottom_left,
                                                       new_corners.population_corners.top_left,
                                                       new_corners.population_corners.top_right,
-                                                      new_corners.population_corners.bottom_right, &rand_function/1)
+                                                      new_corners.population_corners.bottom_right, &rand_function/2)
 
     new_world_section = %WorldSection{location_x: x, location_y: y, properties: new_corners}
 
@@ -98,7 +104,8 @@ defmodule Gameoff.World.WorldLoader do
             target_x = round(@world_section_size * :rand.uniform() - 1)
             target_y = round(@world_section_size * :rand.uniform() - 1)
 
-            if population_distribution[{target_x, target_y}] >= :rand.uniform() do
+            if population_distribution[{target_x, target_y}] >= @minimum_population_distribution
+                and population_distribution[{target_x, target_y}] >= :rand.uniform() do
               total_avaliable = Repo.one(query) - 1
               target = round(total_avaliable * (strength_distribution[{target_x, target_y}] || 0))
 
@@ -138,6 +145,11 @@ defmodule Gameoff.World.WorldLoader do
       end)
   end
 
+  # Returns where the next world section will be located,
+  # :top or :right indicated wether the new world section will be
+  # placed at the top or right of the existing square.
+  #
+  # Returns {:right | :top, x, y}
   defp new_world_section_position() do
     query = from w in "world_sections",
             select: count(w.id)
@@ -161,6 +173,7 @@ defmodule Gameoff.World.WorldLoader do
     end
   end
 
+  # Returns the corners of the new world section (for the diamond square algorithm).
   defp find_corners({:top, 0, 0}) do
     # Special case, first tile
     strength_corners = %{bottom_left: :rand.uniform(), bottom_right: :rand.uniform(),
@@ -199,8 +212,10 @@ defmodule Gameoff.World.WorldLoader do
       population_corners: population_corners}
   end
 
-  def rand_function(previous) do
-    res = previous - 0.5 + :rand.uniform()
+  # Used to change the values for strength and population distribution in the diamond square algorithm.
+  # Values are between 0 and 1 and can change @max_change_diamond_square per iteration.
+  def rand_function(previous, max_change) do
+    res = previous + (:rand.uniform() - 0.5) * max_change
 
     case res do
       res when res < 0 ->

@@ -28,5 +28,6 @@ defmodule Gameoff.Repository do
     struct
     |> cast(params, @valid_params)
     |> validate_required(@required_params)
+    |> unique_constraint(:unique_location, name: "unique_repo_location")
   end
 end
