@@ -1,0 +1,34 @@
+[
+  {
+    "name": ".gitignore",
+    "path": ".gitignore",
+    "sha": "008a3a01449d83e85228c053e8368def23a57d73",
+    "size": 492,
+    "url": "https://api.github.com/repos/michaelneu/game-off-2016/contents/.gitignore?ref=master",
+    "html_url": "https://github.com/michaelneu/game-off-2016/blob/master/.gitignore",
+    "git_url": "https://api.github.com/repos/michaelneu/game-off-2016/git/blobs/008a3a01449d83e85228c053e8368def23a57d73",
+    "download_url": "https://raw.githubusercontent.com/michaelneu/game-off-2016/master/.gitignore",
+    "type": "file",
+    "_links": {
+      "self": "https://api.github.com/repos/michaelneu/game-off-2016/contents/.gitignore?ref=master",
+      "git": "https://api.github.com/repos/michaelneu/game-off-2016/git/blobs/008a3a01449d83e85228c053e8368def23a57d73",
+      "html": "https://github.com/michaelneu/game-off-2016/blob/master/.gitignore"
+    }
+  },
+  {
+    "name": "config",
+    "path": "config",
+    "sha": "a6b00925130b7b734fb254604cdc555572616e93",
+    "size": 0,
+    "url": "https://api.github.com/repos/michaelneu/game-off-2016/contents/config?ref=master",
+    "html_url": "https://github.com/michaelneu/game-off-2016/tree/master/config",
+    "git_url": "https://api.github.com/repos/michaelneu/game-off-2016/git/trees/a6b00925130b7b734fb254604cdc555572616e93",
+    "download_url": null,
+    "type": "dir",
+    "_links": {
+      "self": "https://api.github.com/repos/michaelneu/game-off-2016/contents/config?ref=master",
+      "git": "https://api.github.com/repos/michaelneu/game-off-2016/git/trees/a6b00925130b7b734fb254604cdc555572616e93",
+      "html": "https://github.com/michaelneu/game-off-2016/tree/master/config"
+    }
+  }
+]

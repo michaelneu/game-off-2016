@@ -3,7 +3,7 @@ defmodule Gameoff.RepositoryTest do
 
   alias Gameoff.Repository
 
-  @valid_attrs %{level: 42, location_x: 42, location_y: 42, name: "some content", repo_structure: %{}}
+  @valid_attrs %{level: 42, location_x: 42, location_y: 42, name: "some content", repo_structure: %{}, github_id: 1}
   @invalid_attrs %{}
 
   test "changeset with valid attributes" do

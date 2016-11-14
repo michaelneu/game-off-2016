@@ -7,7 +7,8 @@ use Mix.Config
 
 # General application configuration
 config :gameoff,
-  ecto_repos: [Gameoff.Repo]
+  ecto_repos: [Gameoff.Repo],
+  github_api_token: System.get_env("GITHUB_REST_API_TOKEN")
 
 # Configures the endpoint
 config :gameoff, Gameoff.Endpoint,

@@ -19,3 +19,4 @@
 - Set your environment variables to match the client variables
   - GITHUB_CLIENT_ID
   - GITHUB_CLIENT_SECRET
+  - GITHUB_REST_API_TOKEN
