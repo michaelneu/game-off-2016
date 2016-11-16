@@ -16,6 +16,7 @@
     "@types/es6-promise": "0.0.32",
     "@types/jquery": "^2.0.33",
     "@types/phoenix": "0.0.4",
+    "@types/voronoi-diagram": "^1.0.0",
     "autoless": "^0.1.7",
     "concurrently": "^3.1.0",
     "ts-loader": "^1.2.0",
