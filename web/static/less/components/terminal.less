@@ -1,11 +1,21 @@
 .terminal {
     position: absolute;
+    top: 0px;
     bottom: 0px;
-    left: 0px;
     right: 0px;
 
-    height: @terminal-height + 50px;
-    padding-top: 50px;
+    width: @terminal-width;
+    
+    padding-left: 50px;
+    padding-top: 20px;
+    padding-bottom: 20px;
 
     overflow-y: auto;
+
+    &,
+    .cmd {
+        font-family: "Roboto Mono", monospace;
+        font-weight: bold;
+        font-size: 12px;
+    }
 }

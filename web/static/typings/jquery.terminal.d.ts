@@ -37,6 +37,13 @@ interface JQueryTerminalInterpreterOptions {
 	prompt?: string | (() => string);
 
 	/**
+	 * default is set to JQuery Terminal Signature. You can set it to string
+	 * or function (like prompt) with callback argument which must be called
+	 * with your string.
+	 */
+	greetings?: string | ((callback: (text: string) => void) => void);
+
+	/**
 	 * name is used if you want to distinguish two or more terminals on one
 	 * page or on one server. (if name them differently they will have
 	 * different history and authentication).
@@ -398,6 +405,8 @@ interface JQueryTerminalView {
 }
 
 interface JQueryTerminal {
+	0: HTMLElement;
+
 	/**
 	 * clear terminal
 	 */

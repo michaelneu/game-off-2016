@@ -4,15 +4,14 @@
     <meta charset="utf-8">
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery.terminal/0.11.12/css/jquery.terminal.min.css" integrity="sha256-7GFGYbmsjAfU/kvFbl7GxANgV+LPbCfNqP8eu9FoO6Q=" crossorigin="anonymous" />
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Mono" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 
     <title></title>
   </head>
   <body>
-    <canvas></canvas>
-
-    <div class="terminal">
-    </div>
+    <canvas class="screen"></canvas>
+    <div class="terminal"></div>
 
     <script>
       window.GAMEOFF_JWT_TOKEN = "<%= @jwt_token %>";

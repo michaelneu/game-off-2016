@@ -1,21 +1,24 @@
 import PaperElement from "./paper";
 import MapElement from "./map";
 
-export default class Canvas {
+export default class Screen {
   private canvas: JQuery;
   private stage: createjs.Stage;
   private map: MapElement;
 
+  private background: createjs.Shape;
   private elements: PaperElement[];
 
-  constructor() {
+  constructor(element: JQuery) {
     this.elements = [];
     this.map = new MapElement();
-    this.canvas = $("canvas");
+    this.canvas = element;
 
-    this.stage = new createjs.Stage(this.canvas.get(0));
+    this.background = new createjs.Shape();
+
+    this.stage = new createjs.Stage(element.get(0));
     this.stage.enableMouseOver();
-    this.stage.addChild(this.map);
+    this.stage.addChild(this.map, this.background);
 
     $(window).resize(() => this.onWindowResize());
     this.onWindowResize();
@@ -25,10 +28,15 @@ export default class Canvas {
   }
 
   private onWindowResize() : void {
-      this.canvas.attr("width", this.canvas.width());
-      this.canvas.attr("height", this.canvas.height());
+    const width = this.canvas.width(),
+          height = this.canvas.height();
 
-      this.stage.update();
+    this.canvas.attr("width", height);
+    this.canvas.attr("height", height);
+
+    this.background.graphics.beginFill("#fff").drawRect(0, 0, width, height);
+
+    this.stage.update();
   }
 
   public add(...elements: PaperElement[]) : void {
