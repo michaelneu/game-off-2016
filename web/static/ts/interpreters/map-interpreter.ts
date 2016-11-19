@@ -1,5 +1,6 @@
 import Game from "../game";
 import { BaseInterpreter } from "./base-interpreter";
+import { DotsLoadingMessage } from "../components/terminal/loading-message";
 
 export default class MapInterpreter extends BaseInterpreter {
   constructor(game: Game) {
@@ -10,13 +11,22 @@ export default class MapInterpreter extends BaseInterpreter {
     return [];
   }
 
-  public get options() : JQueryTerminalOptions {
+  public get options() : JQueryTerminalInterpreterOptions {
     return  {
-      greetings: "loading map ... [done]",
+      greetings: "",
       prompt: "map> ",
-      exit: false,
-      processArguments: true,
-      completion: this.autocomplete
+      completion: this.autocomplete,
+      onStart(terminal: JQueryTerminal) {
+        const loading = new DotsLoadingMessage(terminal);
+        loading.start("loading map data");
+
+        setTimeout(() => {
+          loading.stop("loading map data [done]");
+
+          terminal.echo("received data. starting interactive shell\n");
+          terminal.resume();
+        }, 3000);
+      }
     };
   }
 

@@ -1,4 +1,4 @@
-import { Map } from "../api/map";
+import { Map } from "../../api/map";
 import PaperElement from "./paper";
 import voronoi = require("voronoi-diagram");
 

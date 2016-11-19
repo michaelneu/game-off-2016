@@ -58,7 +58,7 @@ interface JQueryTerminalInterpreterOptions {
 	/**
 	 * callback function called when you login.
 	 */
-	onStart?() : void;
+	onStart?(terminal: JQueryTerminal) : void;
 
 	/**
 	 * function called on keydown event if you return false it will not execute

@@ -1,5 +1,5 @@
-import PaperElement from "./paper";
-import MapElement from "./map";
+import PaperElement from "./graphics/paper";
+import MapElement from "./graphics/map";
 
 export default class Screen {
   private canvas: JQuery;
