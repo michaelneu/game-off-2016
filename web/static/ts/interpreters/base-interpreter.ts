@@ -4,7 +4,6 @@ export abstract class BaseInterpreter {
   constructor(protected game: Game) { }
 
   private autocompleteHandler(terminal: JQueryTerminal, command: string, callback: (result: string[]) => void) : void {
-    console.log(command);
     const matchingCommands = this.commands.filter((command) => command.indexOf(command) == 0);
 
     callback(matchingCommands);

@@ -1,5 +1,4 @@
-import { User } from "./api";
-import Screen from "./screen";
+import Screen from "./components/screen";
 import MainInterpreter from "./interpreters/main-interpreter";
 
 export default class Game {

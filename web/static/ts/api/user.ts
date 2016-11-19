@@ -1,4 +1,4 @@
-import * as Server from "./server";
+import * as Server from "./transport/server";
 
 export module User {
   export interface Information {
@@ -8,12 +8,5 @@ export module User {
 
   export function getInformation() : Promise<Information> {
     return Server.send<string, Information>("user");
-  }
-}
-
-export module Map {
-  export interface Point {
-    x: number;
-    y: number;
   }
 }
