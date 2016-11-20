@@ -1,3 +1,8 @@
+// Type definitions for jquery.terminal 0.11.12
+// Project: https://github.com/jcubic/jquery.terminal
+// Definitions by: Michael Neu <https://github.com/michaelneu>
+// Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped
+
 interface JQueryTerminalEchoOptions {
 	/**
 	 * it will allow to display raw html
@@ -32,6 +37,13 @@ interface JQueryTerminalInterpreterOptions {
 	prompt?: string | (() => string);
 
 	/**
+	 * default is set to JQuery Terminal Signature. You can set it to string
+	 * or function (like prompt) with callback argument which must be called
+	 * with your string.
+	 */
+	greetings?: string | ((callback: (text: string) => void) => void);
+
+	/**
 	 * name is used if you want to distinguish two or more terminals on one
 	 * page or on one server. (if name them differently they will have
 	 * different history and authentication).
@@ -46,7 +58,7 @@ interface JQueryTerminalInterpreterOptions {
 	/**
 	 * callback function called when you login.
 	 */
-	onStart?() : void;
+	onStart?(terminal: JQueryTerminal) : void;
 
 	/**
 	 * function called on keydown event if you return false it will not execute
@@ -393,6 +405,8 @@ interface JQueryTerminalView {
 }
 
 interface JQueryTerminal {
+	0: HTMLElement;
+
 	/**
 	 * clear terminal
 	 */
@@ -730,6 +744,32 @@ interface JQueryTerminal {
 	set_interpreter(interpreterFunction?: (command: string, terminal: JQueryTerminal) => void, loginToInterpreter?: boolean) : void;
 }
 
+interface JQueryTerminalStatic {
+	split_equal(text?: string, length?: number) : string[];
+	encode(text?: string) : string;
+	format(text: string, options: any) : string;
+	format_split(text: string) : string[];
+	escape_brackets(text: string) : string;
+	have_formatting(text: string) : boolean;
+	is_formatting(text: string) : boolean;
+	strip(text: string) : string;
+	active() : void;
+	last_id() : number;
+	ansi_colors: any;
+	palette: any;
+	overtyping(text: string) : string;
+	from_ansi(text: string) : string;
+	parse_arguments(text: string) : any[];
+	split_arguments(args: string) : string[];
+	parse_command(command: string) : { name: string, args: string[], rest: any };
+	split_command(command: string) : { name: string, args: string[], rest: any };
+	defaults: any;
+}
+
 interface JQuery {
 	terminal(interpreterFunction: (command: string, terminal: JQueryTerminal) => void, options?: JQueryTerminalOptions) : JQueryTerminal;
+}
+
+interface JQueryStatic {
+	terminal: JQueryTerminalStatic;
 }

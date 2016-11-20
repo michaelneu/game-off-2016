@@ -3,7 +3,7 @@ defmodule Gameoff.UserTest do
 
   alias Gameoff.User
 
-  @valid_attrs %{github_uid: "some content", name: "some content"}
+  @valid_attrs %{github_uid: "some content", name: "some content", location_x: 10, location_y: 15}
   @invalid_attrs %{}
 
   test "changeset with valid attributes" do

@@ -1,4 +1,4 @@
-import * as Server from "./server";
+import * as Server from "./transport/server";
 
 export module User {
   export interface Information {

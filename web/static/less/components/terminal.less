@@ -1,11 +1,46 @@
 .terminal {
     position: absolute;
+    top: 0px;
     bottom: 0px;
-    left: 0px;
     right: 0px;
 
-    height: @terminal-height + 50px;
-    padding-top: 50px;
+    width: @terminal-width;
+    
+    padding-left: 50px;
+    padding-top: 20px;
+    padding-bottom: 20px;
 
     overflow-y: auto;
+
+    opacity: 0;
+
+    &,
+    .cmd {
+        font-family: "Roboto Mono", monospace;
+        font-weight: bold;
+        font-size: 12px;
+
+        text-shadow: @terminal-text-shadow-green, @terminal-text-shadow-white;
+
+        background: @terminal-background-image;
+        background-size: 100% 2px;
+    }
+
+    .error {
+        color: #ff4646;
+        text-shadow: @terminal-text-shadow-red, @terminal-text-shadow-white;
+    }
+}
+
+@keyframes terminal-blink {
+    0%, 100% {
+        background-color: transparent;
+        color: #aaa;
+    }
+    
+    50% {
+        background-color: #bbb;
+        color: #000;
+        box-shadow: @terminal-text-shadow-green, @terminal-text-shadow-white;
+    }
 }

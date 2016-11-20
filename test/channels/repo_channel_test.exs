@@ -26,11 +26,13 @@ defmodule Gameoff.RepoChannelTest do
   end
 
   test "join lobby with authenticated user", %{socket: socket} do
-    assert {:ok, _, _} = subscribe_and_join(socket, "repo:lobby", %{})
+    repo = insert(:repository)
+    assert {:ok, _, _} = subscribe_and_join(socket, "repo:#{repo.name}", %{})
   end
 
   test "get current user name", %{socket: socket, user: user} do
-    assert {:ok, _, socket} = subscribe_and_join(socket, "repo:lobby", %{})
+    repo = insert(:repository)
+    assert {:ok, _, socket} = subscribe_and_join(socket, "repo:#{repo.name}", %{})
 
     ref = push socket, "user", %{}
     response_user = %{name: user.name}

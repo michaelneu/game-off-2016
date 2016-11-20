@@ -30,4 +30,23 @@ defmodule Gameoff.Repository do
     |> validate_required(@required_params)
     |> unique_constraint(:unique_location, name: "unique_repo_location")
   end
+
+  def world_json(repo) do
+    %{
+      level: repo.level,
+      name: repo.name,
+      location_x: repo.location_x,
+      location_y: repo.location_y
+    }
+  end
+
+  def repo_json(repo) do
+    %{
+      level: repo.level,
+      name: repo.name,
+      location_x: repo.location_x,
+      location_y: repo.location_y,
+      repo_structure: repo.repo_structure
+    }
+  end
 end
