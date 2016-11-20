@@ -8,6 +8,8 @@ defmodule Gameoff.User do
     has_many :user_devices, Gameoff.UserDevice
     has_many :devices, through: [:user_devices, :device]
 
+    belongs_to :current_repository, Gameoff.Repository
+
     timestamps()
   end
 
@@ -16,7 +18,8 @@ defmodule Gameoff.User do
   """
   def changeset(struct, params \\ %{}) do
     struct
-    |> cast(params, [:name, :github_uid])
+    |> cast(params, [:name, :github_uid, :current_repository_id])
+    |> cast_assoc(:current_repository)
     |> validate_required([:name, :github_uid])
   end
 end
