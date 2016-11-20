@@ -22,7 +22,7 @@ defmodule Gameoff.WorldChannel do
             where: r.location_x > ^(position_x - @player_view_window),
             where: r.location_y < ^(position_y + @player_view_window),
             where: r.location_y > ^(position_y - @player_view_window)
-    repos = Repo.all(query) |> Enum.map(&Repository.user_json/1)
+    repos = Repo.all(query) |> Enum.map(&Repository.world_json/1)
     reply = %{repos: repos, position: %{x: position_x, y: position_y}}
 
     {:reply, {:ok, reply}, socket}

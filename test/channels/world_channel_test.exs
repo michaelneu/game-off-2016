@@ -36,7 +36,7 @@ defmodule Gameoff.WorldChannelTest do
             where: r.location_x > ^(position_x - @player_view_window),
             where: r.location_y < ^(position_y + @player_view_window),
             where: r.location_y > ^(position_y - @player_view_window)
-    repos = Repo.all(query) |> Enum.map(&Repository.user_json/1)
+    repos = Repo.all(query) |> Enum.map(&Repository.world_json/1)
 
     ref = push socket, "get_world", %{}
     assert_reply ref, :ok, %{repos: ^repos, position: %{x: 30, y: 30}}
@@ -58,7 +58,7 @@ defmodule Gameoff.WorldChannelTest do
             where: r.location_x > ^(position_x - @player_view_window),
             where: r.location_y < ^(position_y + @player_view_window),
             where: r.location_y > ^(position_y - @player_view_window)
-    repos = Repo.all(query) |> Enum.map(&Repository.user_json/1)
+    repos = Repo.all(query) |> Enum.map(&Repository.world_json/1)
 
     ref = push socket, "get_world", %{}
     assert_reply ref, :ok, %{repos: ^repos, position: %{x: 30, y: 30}}
