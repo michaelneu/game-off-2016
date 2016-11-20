@@ -3,6 +3,7 @@ import { Map } from "../../api/map";
 import Color from "./color";
 import PaperElement from "./paper";
 import Polygon from "./polygon";
+import Tooltip from "./tooltip";
 
 import Voronoi = require("voronoi");
 
@@ -11,7 +12,7 @@ export default class MapElement extends createjs.Container {
     super();
   }
 
-  public show(width: number, height: number, animationDuration: number = 700) : Promise<MapElement> {
+  public show(width: number, height: number, animationDuration: number = 750) : Promise<MapElement> {
     const mapPadding = 100;
 
     return Map.getRepositories().then((repositories) => {
@@ -30,21 +31,36 @@ export default class MapElement extends createjs.Container {
             diagramWidth = diagramBorders.bottomRight.x - diagramBorders.topLeft.x,
             diagramHeight = diagramBorders.bottomRight.y - diagramBorders.topLeft.y;
       
+      const tooltips = [];
+
       for (const cell of diagram.cells) {
+        let scaledCenter = { x: 0, y: 0 };
+
         const points = this.convertVoronoiCellToVertexArray(cell),
               scaledPoints = points.map((point) => {
-                return {
+                const scaledPoint = {
                   x: (point.x - diagramBorders.topLeft.x) / diagramWidth * (width - 2 * mapPadding),
                   y: (point.y - diagramBorders.topLeft.y) / diagramHeight * (height - 2 * mapPadding)
                 };
+
+                scaledCenter.x += scaledPoint.x;
+                scaledCenter.y += scaledPoint.y;
+
+                return scaledPoint;
               });
 
         if (scaledPoints.length > 0) {
+          scaledCenter = {
+            x: scaledCenter.x / scaledPoints.length + mapPadding,
+            y: scaledCenter.y / scaledPoints.length + mapPadding
+          };
+
           const polygon = new Polygon(scaledPoints);
 
           polygon.stroke = "rgba(0, 0, 0, 0.3)";
           polygon.fill = "lightgreen";
           polygon.cursor = "pointer";
+          polygon.rotation = 30 * Math.random();
 
           polygon.on("click", () => {
             const event = new createjs.Event("selection", false, false);
@@ -53,9 +69,27 @@ export default class MapElement extends createjs.Container {
             this.dispatchEvent(event);
           });
 
-          polygon.rotation = 30 * Math.random();
-          polygon.x = 750 * Math.random() - 375;
-          polygon.y = 750 * Math.random() - 375;
+          const tooltip = new Tooltip((<Map.Repository>cell.site).name);
+          tooltips.push(tooltip);
+
+          polygon.on("mouseover", () => {
+            tooltip.show(scaledCenter.x, scaledCenter.y);
+          });
+
+          polygon.on("mouseout", () => {
+            tooltip.hide();
+          });
+
+          const maxPositionValue = 200,
+                entryDirection = Math.random() > 0.5 ? "above" : "left";
+          
+          if (entryDirection == "above") {
+              polygon.x = Math.random() * maxPositionValue;
+              polygon.y = -Math.random() * maxPositionValue;
+          } else if (entryDirection == "left") {
+              polygon.x = -Math.random() * maxPositionValue;
+              polygon.y = Math.random() * maxPositionValue;
+          }
 
           this.addChild(polygon);
 
@@ -67,6 +101,8 @@ export default class MapElement extends createjs.Container {
           }, animationDuration * 0.9, createjs.Ease.elasticOut);
         }
       }
+
+      this.addChild.apply(this, tooltips);
 
       return new Promise<MapElement>((resolve, reject) => {
         setTimeout(() => {

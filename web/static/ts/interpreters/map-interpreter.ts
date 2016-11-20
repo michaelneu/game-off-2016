@@ -46,6 +46,13 @@ export default class MapInterpreter extends BaseInterpreter {
             this.game.terminal.error("invalid parameters given. usage: \n\tgoto repository-name");
           }
         }
+      },
+      {
+        name: "?",
+        description: "displays this help",
+        execute: (argv: string[]) => {
+          this.showHelp();
+        }
       }
     ];
   }
