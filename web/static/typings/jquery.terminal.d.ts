@@ -744,6 +744,32 @@ interface JQueryTerminal {
 	set_interpreter(interpreterFunction?: (command: string, terminal: JQueryTerminal) => void, loginToInterpreter?: boolean) : void;
 }
 
+interface JQueryTerminalStatic {
+	split_equal(text?: string, length?: number) : string[];
+	encode(text?: string) : string;
+	format(text: string, options: any) : string;
+	format_split(text: string) : string[];
+	escape_brackets(text: string) : string;
+	have_formatting(text: string) : boolean;
+	is_formatting(text: string) : boolean;
+	strip(text: string) : string;
+	active() : void;
+	last_id() : number;
+	ansi_colors: any;
+	palette: any;
+	overtyping(text: string) : string;
+	from_ansi(text: string) : string;
+	parse_arguments(text: string) : any[];
+	split_arguments(args: string) : string[];
+	parse_command(command: string) : { name: string, args: string[], rest: any };
+	split_command(command: string) : { name: string, args: string[], rest: any };
+	defaults: any;
+}
+
 interface JQuery {
 	terminal(interpreterFunction: (command: string, terminal: JQueryTerminal) => void, options?: JQueryTerminalOptions) : JQueryTerminal;
+}
+
+interface JQueryStatic {
+	terminal: JQueryTerminalStatic;
 }
