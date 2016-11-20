@@ -2,7 +2,7 @@ import PaperElement from "./graphics/paper";
 import MapElement from "./graphics/map";
 
 export default class Screen {
-  private canvas: JQuery;
+  private $canvas: JQuery;
   private stage: createjs.Stage;
   private map: MapElement;
 
@@ -10,15 +10,15 @@ export default class Screen {
   private elements: PaperElement[];
 
   constructor(element: JQuery) {
+    this.$canvas = element;
     this.elements = [];
-    this.map = new MapElement();
-    this.canvas = element;
-
-    this.background = new createjs.Shape();
 
     this.stage = new createjs.Stage(element.get(0));
     this.stage.enableMouseOver();
-    this.stage.addChild(this.map, this.background);
+
+    this.map = new MapElement();
+    this.background = new createjs.Shape();
+    this.stage.addChild(this.background, this.map);
 
     $(window).resize(() => this.onWindowResize());
     this.onWindowResize();
@@ -27,12 +27,12 @@ export default class Screen {
     createjs.Ticker.addEventListener("tick", this.stage);
   }
 
-  private onWindowResize() : void {
-    const width = this.canvas.width(),
-          height = this.canvas.height();
+  public onWindowResize() : void {
+    const width = this.$canvas.width(),
+          height = this.$canvas.height();
 
-    this.canvas.attr("width", height);
-    this.canvas.attr("height", height);
+    this.$canvas.attr("width", width);
+    this.$canvas.attr("height", height);
 
     this.background.graphics.beginFill("#fff").drawRect(0, 0, width, height);
 
@@ -72,7 +72,9 @@ export default class Screen {
     }, 500);
   }
 
-  public showMap() : void {
+  public showMap() : Promise<MapElement> {
     this.clear();
+    
+    return this.map.show();
   }
 }

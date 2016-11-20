@@ -1,51 +1,43 @@
 import { Map } from "../../api/map";
+
+import Color from "./color";
 import PaperElement from "./paper";
+
 import voronoi = require("voronoi-diagram");
-
-class Color {
-  constructor(
-    public r: number,
-    public g: number,
-    public b: number,
-    public alpha: number = 1
-  ) { }
-
-  toString() {
-    return `rgba(${this.r}, ${this.g}, ${this.b}, ${this.alpha})`;
-  }
-}
 
 export default class MapElement extends createjs.Container {
   constructor() {
     super();
   }
 
-  private drawPolygon(color: Color, points: Map.Point[]) : void {
-    const lastPoint = points.slice(-1)[0];
-    
-    const polygon = new createjs.Shape();
-    const fillCommand: any = polygon.graphics.beginFill(color.toString()).command;
-    polygon.graphics.beginStroke("rgba(0, 0, 0, 0.3)");
+  public show() : Promise<MapElement> {
+    return Map.getPoints().then((points) => {
+      const diagram = voronoi(points.map((point) => [point.x, point.y]));
 
-    polygon.graphics.moveTo(lastPoint.x, lastPoint.y);
-    points.forEach((point) => polygon.graphics.lineTo(point.x, point.y));
+      for (let i = 0; i < points.length; i++) {
+        const point = points[i],
+              cell = diagram.cells[i];
+        
+        if (cell.indexOf(-1) == -1) {
+          const points = [];
 
-    polygon.cursor = "pointer";
+          for (const cellIndex of cell) {
+            points.push(diagram.positions[cellIndex]);
+          }
 
-    polygon.on("mouseover", (event: createjs.Event) => {
-      const target: createjs.Shape = event.target;
+          console.log(points);
+        }
 
-      color.alpha = 0.75;
-      fillCommand.style = color.toString();
+        const circle = new createjs.Shape();
+        circle.graphics.beginFill("black").drawCircle(point.x, point.y, 3);
+        this.addChild(circle);
+      }
+
+      return new Promise<MapElement>((resolve, reject) => {
+        setTimeout(() => {
+          resolve(this);
+        }, 500);
+      });
     });
-
-    polygon.on("mouseout", (event: createjs.Event) => {
-      const target: createjs.Shape = event.target;
-
-      color.alpha = 1;
-      fillCommand.style = color.toString();
-    });
-
-    this.addChild(polygon);
   }
 }

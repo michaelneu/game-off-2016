@@ -25,7 +25,7 @@ export default class Game {
     const mainInterpreter = new MainInterpreter(this);
 
     this.$terminal = $(terminalSelector);
-    this._terminal = this.$terminal.terminal(mainInterpreter.processCommand, mainInterpreter.options);
+    this._terminal = this.$terminal.terminal(mainInterpreter.interpreter, mainInterpreter.options);
   }
 
   public play() : void {
@@ -34,5 +34,8 @@ export default class Game {
           screenBorderWidth = this.$screen.outerWidth() - this.$screen.innerWidth();
     
     this.$screen.css("width", `calc(${screenRelativeWidth}% + ${screenBorderWidth}px)`);
+    setTimeout(() => this._screen.onWindowResize(), 500);
+
+    this.$terminal.css("opacity", "1");
   }
 }
