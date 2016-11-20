@@ -28,10 +28,10 @@ export default class MainInterpreter extends BaseInterpreter {
           terminal.echo(() => {
             const terminalWidth = terminal.cols(),
                   messages = [
-                    "------------------------------------------",
+                    "----------------------------------------",
                     "game-off-2016 0.0.0 (default, <browser>)",
                     "Type \"help\" for more information.",
-                    "------------------------------------------"
+                    "----------------------------------------"
                   ];
             
             let centeredText = "";

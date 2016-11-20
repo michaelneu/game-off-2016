@@ -17,7 +17,6 @@
     "@types/jquery": "^2.0.33",
     "@types/phoenix": "0.0.4",
     "@types/sprintf": "0.0.28",
-    "@types/voronoi-diagram": "^1.0.0",
     "autoless": "^0.1.7",
     "concurrently": "^3.1.0",
     "ts-loader": "^1.2.0",
@@ -27,6 +26,6 @@
   "dependencies": {
     "phoenix": "^1.2.1",
     "sprintf": "^0.1.5",
-    "voronoi-diagram": "^1.0.1"
+    "voronoi": "^1.0.0"
   }
 }

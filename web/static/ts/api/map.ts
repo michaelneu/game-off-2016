@@ -1,19 +1,21 @@
 export module Map {
-  export interface Point {
+  export interface Repository {
     x: number;
     y: number;
+    name: string;
   }
 
-  export function getPoints() : Promise<Point[]> {
-    return new Promise<Point[]>((resolve, reject) => {
+  export function getRepositories() : Promise<Repository[]> {
+    return new Promise<Repository[]>((resolve, reject) => {
       setTimeout(() => {
-        const points: Point[] = [];
+        const points: Repository[] = [];
 
         for (let x = 0; x < 10; x++) {
           for (let y = 0; y < 10; y++) {
             points.push({
-              x: x * 100,
-              y: y * 100
+              x: x * 100 * Math.random(),
+              y: y * 100 * Math.random(),
+              name: "foobar"
             });
           }
         }

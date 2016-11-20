@@ -75,6 +75,13 @@ export default class Screen {
   public showMap() : Promise<MapElement> {
     this.clear();
     
-    return this.map.show();
+    const width = this.$canvas.width(),
+          height = this.$canvas.height();
+
+    return this.map.show(width, height);
+  }
+
+  public hideMap() : Promise<MapElement> {
+    return this.map.hide();
   }
 }
