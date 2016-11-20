@@ -8,6 +8,8 @@ defmodule Gameoff.Factory do
     %User{
       name: "Bob Belcher",
       github_uid: sequence("github_uid"),
+      location_x: 30,
+      location_y: 30
     }
   end
 

@@ -22,14 +22,13 @@ defmodule Gameoff.WorldChannelTest do
     assert_reply ref, :ok, %{repos: [], position: %{x: 30, y: 30}}
   end
 
-  test "get_world returs repositories in player window", %{socket: socket, user: _user} do
+  test "get_world returs repositories in player window", %{socket: socket, user: user} do
     insert(:repository)
     insert(:repository)
     insert(:repository)
 
-    # TODO: Add player position
-    position_x = 30
-    position_y = 30
+    position_x = user.location_x
+    position_y = user.location_y
 
     query = from r in Repository,
             where: r.location_x < ^(position_x + @player_view_window),
@@ -43,15 +42,15 @@ defmodule Gameoff.WorldChannelTest do
 
   end
 
-  test "get_world returs no repositories outside player window", %{socket: socket, user: _user} do
+  test "get_world returs no repositories outside player window", %{socket: socket, user: user} do
     insert(:repository)
     insert(:repository)
     insert(:repository)
     insert(:repository, %{location_x: 100})
 
-    # TODO: Add player position
-    position_x = 30
-    position_y = 30
+    position_x = user.location_x
+    position_y = user.location_y
+
 
     query = from r in Repository,
             where: r.location_x < ^(position_x + @player_view_window),
