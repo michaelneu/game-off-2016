@@ -5,7 +5,7 @@
   "repository": "https://github.com/michaelneu/game-off-2016.git",
   "license": "MIT",
   "scripts": {
-    "build:images": "cp web/static/images priv/static -r",
+    "build:images": "cp -r web/static/images priv/static",
     "build:less": "autoless --no-watch web/static/less priv/static",
     "build": "npm run build:images && npm run build:less && webpack",
     "dev": "concurrently 'webpack --watch' 'autoless web/static/less priv/static'",

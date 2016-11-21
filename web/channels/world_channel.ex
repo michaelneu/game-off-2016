@@ -56,7 +56,7 @@ defmodule Gameoff.WorldChannel do
 
   defp init_user_position(user) do
     query = from r in Repository,
-            where: is_nil(r.owner),
+            where: is_nil(r.owner_id),
             order_by: [asc: r.level],
             limit: 1
 
