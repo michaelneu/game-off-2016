@@ -14,7 +14,8 @@ defmodule Gameoff do
       supervisor(Gameoff.Endpoint, []),
       # Start your own worker by calling: Gameoff.Worker.start_link(arg1, arg2, arg3)
       # worker(Gameoff.Worker, [arg1, arg2, arg3]),
-      worker(Gameoff.World.WorldLoader, [])
+      worker(Gameoff.World.WorldLoader, []),
+      supervisor(Gameoff.Repository.RepositorySupervisor, [])
     ]
 
     # See http://elixir-lang.org/docs/stable/elixir/Supervisor.html
