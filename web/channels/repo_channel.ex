@@ -6,6 +6,7 @@ defmodule Gameoff.RepoChannel do
   alias Gameoff.Repo
   alias Gameoff.User
 
+  intercept ["user"]
 
   def join("repo:" <> repo_name, _params, socket) do
     repository = Repo.get_by(Repository, name: repo_name)
@@ -13,6 +14,7 @@ defmodule Gameoff.RepoChannel do
       socket = socket
                 |> assign(:repo, repository.name)
                 |> assign(:position, [])
+                |> assign(:repo_state, :crawling)
       user = Guardian.Phoenix.Socket.current_resource(socket) |> Repo.preload(:current_repository)
 
       changeset = User.changeset(user, %{current_repository_id: repository.id})
@@ -35,13 +37,19 @@ defmodule Gameoff.RepoChannel do
     {:reply, {:ok, user_reply}, socket}
   end
 
-  intercept ["user"]
+  def handle_in("cd", %{target_path: path}, socket) do
+
+  end
+
   def handle_out("user", payload, socket) do
     push socket, "user", payload
     {:noreply, socket}
   end
 
-  def terminate(_message, _socket) do
-    Logger.debug "SOMEBODY TERMINATED"
+  def terminate(_message, socket) do
+      user = Guardian.Phoenix.Socket.current_resource(socket) |> Repo.preload(:current_repository)
+
+      changeset = User.changeset(user, %{current_repository_id: repository.id})
+      Repo.update(changeset)
   end
 end
