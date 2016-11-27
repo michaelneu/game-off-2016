@@ -1,2 +1,3 @@
+echo CUSTOM_COMPILE
 npm run build
 mix phoenix.digest
