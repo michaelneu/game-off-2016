@@ -42,17 +42,17 @@ defmodule Gameoff.World.WorldLoader do
     free_repos = Repo.one(query)
     Logger.info("Found #{free_repos} free repositories...")
 
-    if free_repos < @minimum_free_repos do
-      Logger.info("Try to insert new repos...")
+    # if free_repos < @minimum_free_repos do
+    #   Logger.info("Try to insert new repos...")
 
-      # Insert at least enough repos to have minimum free repos again (and best a few more)
-      insert_repos()
+    #   # Insert at least enough repos to have minimum free repos again (and best a few more)
+    #   insert_repos()
 
-      # Immideatly re schedule in case there are still not enough repos
-      schedule_work(0)
-    else
-      schedule_work(@scheudle_interval)
-    end
+    #   # Immideatly re schedule in case there are still not enough repos
+    #   schedule_work(0)
+    # else
+    #   schedule_work(@scheudle_interval)
+    # end
 
     {:noreply, state}
   end

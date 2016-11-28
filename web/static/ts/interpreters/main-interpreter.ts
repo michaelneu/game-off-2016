@@ -7,7 +7,40 @@ import MapInterpreter from "./map-interpreter";
 
 import { sprintf } from "sprintf";
 
+interface PathElement {
+  name: string;
+  files: string[];
+  folders: PathElement[];
+}
+
+enum PathType {
+  None,
+  File,
+  Folder
+}
+
+import GAME_STRUCTURE = require("../../../../structure");
+
+// statically optimized state of the player. contains the repository structure the player can move in and some devices
+const OPTIMIZED_GAME = {
+  structure: GAME_STRUCTURE
+};
+
 export default class MainInterpreter extends BaseInterpreter {
+  private cwd: string[];
+
+  constructor(game: Game) {
+    super(game);
+
+    this.cwd = [];
+  }
+
+  private updatePrompt() : void {
+    const cwd = [OPTIMIZED_GAME.structure.name].concat(this.cwd).join("/");
+    
+    this.game.terminal.set_prompt(`[[;lightgray;]user]@[[;lightgreen;]team] [[[;lightgreen;]${cwd}]] $ `);
+  }
+
   public get options() : JQueryTerminalOptions {
     return  {
       greetings: "",
@@ -19,7 +52,7 @@ export default class MainInterpreter extends BaseInterpreter {
         loading.start(loadingMessage);
 
         setTimeout(() => {
-          terminal.set_prompt("user@[[;lightgreen;]team] [[[;lightgreen;]repository/dir]] $ ");
+          this.updatePrompt();
 
           loading.stop(loadingMessage);
 
@@ -61,13 +94,151 @@ export default class MainInterpreter extends BaseInterpreter {
     };
   }
 
+  private resolvePath(path: string) : string[] {
+    if (path == "/") {
+      return [];
+    } else {
+      let currentRootPath = this.cwd.map((element) => element);
+
+      if (path.indexOf("/") == 0) {
+        currentRootPath = [];
+      }
+
+      const targetParts = path.split("/").filter((element) => element.length > 0);
+
+      for (const part of targetParts) {
+        if (part == ".." && currentRootPath.length > 0) {
+          currentRootPath.pop();
+        } else if (part != ".") {
+          currentRootPath.push(part);
+        }
+      }
+
+      return currentRootPath;
+    }
+  }
+
+  private identifyPath(path: string[]) : PathType {
+    if (path.length == 0) {
+      return PathType.Folder;
+    } else {
+      let cwd = OPTIMIZED_GAME.structure;
+
+      for (const element of path) {
+        let found = false;
+
+        for (const folder of cwd.folders) {
+          if (folder.name == element) {
+            found = true;
+            cwd = folder;
+
+            break;
+          }
+        }
+
+        if (!found) {
+          return PathType.None;
+        }
+      }
+
+      const basename = path.slice(-1)[0];
+
+      if (cwd.name == basename) {
+        return PathType.Folder;
+      } else {
+        for (const file of cwd.files) {
+          if (file == basename) {
+            return PathType.File;
+          }
+        }
+
+        return PathType.None;
+      }
+    }
+  }
+
+  private echoListdir(dir: string[]) : void {
+    let temp = OPTIMIZED_GAME.structure;
+
+    for (const element of dir) {
+      for (const folder of temp.folders) {
+        if (folder.name == element) {
+          temp = folder;
+          break;
+        }
+      }
+    }
+
+    const folders = temp.folders.map((folder) => `[[;lightblue;]${folder.name}]`)
+                                .reduce((a, b) => `${a}\t${b}`, "")
+                                .trim(),
+          files = temp.files.map((file) => `${file}`)
+                            .reduce((a, b) => `${a}\t${b}`, "")
+                            .trim();
+
+    const contents = `${folders}\t${files}`;
+
+    this.game.terminal.echo(contents);
+  }
+
   protected get commands() : TerminalCommand[] {
     return [
+      {
+        name: "ls",
+        description: "lists the content of the current directory",
+        execute: (argv: string[]) => {
+          if (argv.length == 2) {
+            const path = argv[1].trim(),
+                  resolvedPath = this.resolvePath(path),
+                  pathType = this.identifyPath(resolvedPath);
+
+            switch (pathType) {
+              case PathType.File:
+                this.game.terminal.echo(resolvedPath.join("/"));
+                break;
+
+              case PathType.Folder:
+                this.echoListdir(resolvedPath);
+                break;
+
+              default:
+                this.game.terminal.error(`no such directory: ${path}`);
+                break;
+            }
+          } else {
+            this.echoListdir(this.cwd);
+          }
+        }
+      },
       {
         name: "cd",
         description: "change the current directory",
         execute: (argv: string[]) => {
+          if (argv.length == 1) {
+            this.cwd = [];
+            this.updatePrompt();
+          } else if (argv.length == 2) {
+            const path = argv[1].trim(),
+                  resolvedPath = this.resolvePath(path),
+                  pathType = this.identifyPath(resolvedPath);
 
+            console.log(resolvedPath, pathType);
+
+            switch (pathType) {
+              case PathType.Folder:
+                this.cwd = resolvedPath;
+                this.updatePrompt();
+                break;
+
+              case PathType.File:
+                this.game.terminal.error("can't cd to a file");
+                break;
+
+              default:
+                this.game.terminal.error(`no such directory: ${path}`);
+                break;
+            }
+          }
         }
       },
       {
@@ -80,6 +251,7 @@ export default class MainInterpreter extends BaseInterpreter {
       },
       {
         name: "man",
+        man: "what did you expect?",
         description: "shows detailed help for a command",
         execute: (argv: string[]) => {
           if (argv.length > 1) {
@@ -96,30 +268,17 @@ export default class MainInterpreter extends BaseInterpreter {
         name: "map",
         description: "opens the map",
         execute: (argv: string[]) => {
+          this.game.terminal.echo("optimized away. if you like diagrams, then take a look at this voronoi diagram over there!\n");
+
           const mapInterpreter = new MapInterpreter(this.game);
           this.game.terminal.push(mapInterpreter.interpreter, mapInterpreter.options);
-        }
-      },
-      {
-        name: "pwn",
-        description: "pwn this repository",
-        man: "starts the fight required to own this repository",
-        execute: (argv: string[]) => {
-          
         }
       },
       {
         name: "tutorial",
         description: "starts the tutorial",
         execute: (argv: string[]) => {
-          
-        }
-      },
-      {
-        name: "whoami",
-        description: "displays your name",
-        execute: (argv: string[]) => {
-          
+
         }
       }
     ];

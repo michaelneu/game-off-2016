@@ -7,24 +7,24 @@ interface JQueryTerminalEchoOptions {
 	/**
 	 * it will allow to display raw html
 	 */
-	raw: boolean;
+	raw?: boolean;
 
 	/**
 	 * callback function with one argument the div container
 	 */
-	finalize(div: HTMLElement) : void;
+	finalize?(div: HTMLElement) : void;
 
 	/**
 	 * default is true, if it's false it will not print echo text to terminal
 	 * until you call flush method
 	 */
-	flush: boolean;
+	flush?: boolean;
 
 	/**
 	 * it will not break text in the middle of the word (available from version
 	 * 0.10.0).
 	 */
-	keepWords: boolean;
+	keepWords?: boolean;
 }
 
 interface JQueryTerminalInterpreterOptions {
