@@ -20,7 +20,7 @@ defmodule Gameoff.WorldChannel do
   end
 
   def handle_in("get_world", _message, socket) do
-    user = Guardian.Phoenix.Socket.current_resource(socket)
+    user = Guardian.Phoenix.Socket.current_resource(socket) |> Repo.preload(:current_repository)
 
     user =
       if user.location_x == nil do
