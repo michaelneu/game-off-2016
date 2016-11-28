@@ -1,4 +1,4 @@
-import * as Server from "./transport/server";
+import { Lobby } from "./transport/server";
 
 export module User {
   export interface Information {
@@ -7,6 +7,7 @@ export module User {
   }
 
   export function getInformation() : Promise<Information> {
-    return Server.send<string, Information>("user");
+    // return Server.send<string, Information>("user");
+    return null;
   }
 }

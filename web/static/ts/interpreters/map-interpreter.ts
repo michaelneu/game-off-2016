@@ -1,4 +1,4 @@
-import { Map } from "../api/map";
+import { World } from "../api/world";
 
 import Game from "../game";
 
@@ -8,6 +8,7 @@ import { DotsLoadingMessage } from "../components/terminal/loading-message";
 export default class MapInterpreter extends BaseInterpreter {
   public get options() : JQueryTerminalInterpreterOptions {
     return  {
+      name: "map",
       greetings: "",
       prompt: "map> ",
       completion: this.autocomplete,
@@ -16,12 +17,6 @@ export default class MapInterpreter extends BaseInterpreter {
         loading.start("loading map data");
         
         this.game.screen.showMap().then((map) => {
-          map.on("selection", (event: createjs.Event) => {
-            const repository: Map.Repository = event.data;
-
-            this.game.terminal.set_command(`goto ${repository.name}`);
-          });
-
           loading.stop("loading map data [done]");
         });
       },
@@ -38,15 +33,6 @@ export default class MapInterpreter extends BaseInterpreter {
 
   protected get commands() : TerminalCommand[] {
     return [
-      {
-        name: "goto",
-        description: "changes to the given repository",
-        execute: (argv: string[]) => {
-          if (argv.length != 2) {
-            this.game.terminal.error("invalid parameters given. usage: \n\tgoto repository-name");
-          }
-        }
-      },
       {
         name: "?",
         description: "displays this help",

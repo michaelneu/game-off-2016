@@ -1,4 +1,4 @@
-import { Map } from "../../api/map";
+import { World } from "../../api/world";
 
 import Color from "./color";
 import PaperElement from "./paper";
@@ -15,11 +15,15 @@ export default class MapElement extends createjs.Container {
   public show(width: number, height: number, animationDuration: number = 750) : Promise<MapElement> {
     const mapPadding = 100;
 
-    return Map.getRepositories().then((repositories) => {
-      const repoBorders = this.getBorderPointsOfPointList(repositories),
+    return World.getRepositories().then((repositories) => {
+      const reposAsVertices = repositories.map((repo) => {
+              return { x: repo.location_x, y: repo.location_y }
+            });
+
+      const repoBorders = this.getBorderPointsOfPointList(reposAsVertices),
             voronoi = new Voronoi();
 
-      const diagram = voronoi.compute(repositories, {
+      const diagram = voronoi.compute(reposAsVertices, {
         xl: repoBorders.topLeft.x - 25,
         yt: repoBorders.topLeft.y - 25,
         xr: repoBorders.bottomRight.x + 25,
@@ -69,7 +73,7 @@ export default class MapElement extends createjs.Container {
             this.dispatchEvent(event);
           });
 
-          const tooltip = new Tooltip((<Map.Repository>cell.site).name);
+          const tooltip = new Tooltip((<any>cell.site).name);
           tooltips.push(tooltip);
 
           polygon.on("mouseover", () => {

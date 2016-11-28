@@ -7,7 +7,7 @@ abstract class LoadingMessage {
 
   protected abstract get sprites() : string[];
   
-  public start(message?: string) : void {
+  public start(message: string = "") : void {
     if (this.currentSpriteIndex == -1) {
       this.terminal.pause(false);
 

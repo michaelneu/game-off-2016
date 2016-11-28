@@ -1,4 +1,4 @@
-import { Socket } from "phoenix";
+import { Socket, Channel } from "phoenix";
 
 declare var GAMEOFF_JWT_TOKEN: string;
 
@@ -8,25 +8,42 @@ socket.connect({
   guardian_token: GAMEOFF_JWT_TOKEN
 });
 
-const lobby = socket.channel("repo:lobby");
-lobby.join();
+export class Lobby {
+  private channel: Channel;
 
-export function send<T, TResult>(event: string, payload?: T) : Promise<TResult> {
-  return new Promise<TResult>((resolve, reject) => {
-    lobby.push(event, payload)
-          .receive("ok", (response: TResult) => {
-            resolve(response);
-          })
-          .receive("error", (response) => {
-            reject(response);
-          });
-  });
+  constructor(identifier: string) {
+    this.channel = socket.channel(identifier);
+  }
+
+  public join() : void {
+    this.channel.join();
+  }
+
+  public leave() : void {
+    this.channel.leave();
+  }
+
+  public send<T, TResult>(event: string, payload?: T) : Promise<TResult> {
+    return new Promise<TResult>((resolve, reject) => {
+      this.channel.push(event, payload)
+            .receive("ok", (response: TResult) => {
+              resolve(response);
+            })
+            .receive("error", (response) => {
+              reject(response);
+            });
+    });
+  }
+
+  public addEventListener<TResult>(event: string, callback: (data?: TResult) => void) : void {
+    this.channel.on(event, callback);
+  }
+
+  public removeEventListener(event: string) : void {
+    this.channel.off(event);
+  }
 }
 
-export function addEventListener<TResult>(event: string, callback: (data?: TResult) => void) : void {
-  lobby.on(event, callback);
-}
-
-export function removeEventListener(event: string) : void {
-  lobby.off(event);
-}
+export const lobbies = {
+  world: new Lobby("world:lobby")
+};
