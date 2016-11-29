@@ -8,6 +8,7 @@ export default class Screen {
 
   private background: createjs.Shape;
   private elements: PaperElement[];
+  private deviceSprite: createjs.Bitmap;
 
   constructor(element: JQuery) {
     this.$canvas = element;
@@ -83,5 +84,66 @@ export default class Screen {
 
   public hideMap() : Promise<MapElement> {
     return this.map.hide();
+  }
+
+  public addDevice(image: string, animationDuration: number = 300) : Promise<void> {
+    return new Promise<void>((resolve, reject) => {
+      const width = this.$canvas.width(),
+            height = this.$canvas.height(),
+            imageWidth = 512,
+            imageHeight = 512;
+
+      this.deviceSprite = new createjs.Bitmap(image);
+      this.deviceSprite.shadow = new createjs.Shadow("rgba(0, 0, 0, 0.3)", 3, 3, 10);
+
+      this.deviceSprite.scaleX = this.deviceSprite.scaleY = 0.5;
+
+      this.deviceSprite.x = height / 2;
+      this.deviceSprite.y = -100;
+      this.deviceSprite.rotation = 30;
+
+      this.stage.addChild(this.deviceSprite);
+
+      createjs.Tween.get(this.deviceSprite).to({
+        y: height / 2 - 128,
+        rotation: 0
+      }, animationDuration * 0.9, createjs.Ease.bounceOut);
+
+      setTimeout(() => {
+        resolve();
+      }, animationDuration);
+    });
+  }
+
+  public shakeDevice(shakeCount: number = 10, animationDuration: number = 500) : void {
+    const x = this.deviceSprite.x,
+          tween = createjs.Tween.get(this.deviceSprite);
+
+    for (let i = 0; i < shakeCount; i++) {
+      const sign = i % 2 == 0 ? -1 : 1;
+
+      tween.to({
+        x: x + 5 * sign * Math.random(),
+        rotation: 10 * sign * Math.random()
+      }, animationDuration / shakeCount);
+    }
+
+    tween.to({
+      x: x,
+      rotation: 0
+    }, animationDuration / shakeCount);
+  }
+
+  public removeDevice(animationDuration: number = 400) : Promise<void> {
+    return new Promise<void>((resolve, reject) => {
+      createjs.Tween.get(this.deviceSprite).to({
+        y: this.$canvas.height() + 200
+      }, animationDuration * 0.9, createjs.Ease.circIn);
+
+      setTimeout(() => {
+        this.stage.removeChild(this.deviceSprite);
+        resolve();
+      }, animationDuration);
+    });
   }
 }

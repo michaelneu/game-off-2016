@@ -4,6 +4,7 @@ import { SlashLoadingMessage } from "../components/terminal/loading-message";
 
 import { BaseInterpreter, TerminalCommand } from "./base-interpreter";
 import MapInterpreter from "./map-interpreter";
+import FightInterpreter from "./fight-interpreter";
 
 import { sprintf } from "sprintf";
 
@@ -23,7 +24,45 @@ import GAME_STRUCTURE = require("../../../../structure");
 
 // statically optimized state of the player. contains the repository structure the player can move in and some devices
 const OPTIMIZED_GAME = {
-  structure: GAME_STRUCTURE
+  structure: GAME_STRUCTURE,
+  devices: [
+    {
+      name: "Toaster",
+      image: "images/devices/toaster.png",
+      possibleAttacks: [
+        {
+          name: "try default password",
+          power: 70
+        },
+        {
+          name: "ddos",
+          power: 10
+        },
+        {
+          name: "telnet",
+          power: 20
+        },
+        {
+          name: "social engineering with toast",
+          power: 40
+        }
+      ]
+    },
+    {
+      name: "Light Bulb",
+      image: "images/devices/light-bulb.png",
+      possibleAttacks: [
+        {
+          name: "try admin:admin",
+          power: 100
+        },
+        {
+          name: "trigger clapper",
+          power: 1
+        }
+      ]
+    }
+  ]
 };
 
 export default class MainInterpreter extends BaseInterpreter {
@@ -222,8 +261,6 @@ export default class MainInterpreter extends BaseInterpreter {
                   resolvedPath = this.resolvePath(path),
                   pathType = this.identifyPath(resolvedPath);
 
-            console.log(resolvedPath, pathType);
-
             switch (pathType) {
               case PathType.Folder:
                 this.cwd = resolvedPath;
@@ -279,6 +316,22 @@ export default class MainInterpreter extends BaseInterpreter {
         description: "starts the tutorial",
         execute: (argv: string[]) => {
 
+        }
+      },
+      {
+        name: "scan",
+        description: "scans for devices to fight",
+        execute: (argv: string[]) => {
+          if (Math.random() > 0.7) {
+            this.game.terminal.echo("no devices found");
+          } else {
+            const device = OPTIMIZED_GAME.devices[Math.floor(Math.random() * OPTIMIZED_GAME.devices.length)];
+
+            this.game.terminal.echo(`found ${device.name}!`);
+
+            const fightInterpreter = new FightInterpreter(this.game, device);
+            this.game.terminal.push(fightInterpreter.interpreter, fightInterpreter.options);
+          }
         }
       }
     ];
